@@ -9,7 +9,6 @@ import click
 from . import __version__
 from .client import GbizinfoClient
 from .mappers import *
-from .mappers.todokede import GbizInfoTodokedeMapper
 
 
 @click.group()

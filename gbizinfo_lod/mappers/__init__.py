@@ -117,6 +117,7 @@ from .chotatsu import GbizInfoChotatsuMapper
 from .hojin import GbizInfoHojinMapper
 from .hojyokin import GbizInfoHojyokinMapper
 from .hyosho import GbizInfoHyoshoMapper
+from .todokede import GbizInfoTodokedeMapper
 from .shokuba import GbizInfoShokubaMapper
 from .tokkyo import GbizInfoTokkyoMapper
 from .zaimu import GbizInfoZaimuMapper
@@ -126,6 +127,7 @@ __all__ = [
     "GbizInfoHojyokinMapper",
     "GbizInfoChotatsuMapper",
     "GbizInfoHyoshoMapper",
+    "GbizInfoTodokedeMapper",
     "GbizInfoTokkyoMapper",
     "GbizInfoShokubaMapper",
     "GbizInfoZaimuMapper",
