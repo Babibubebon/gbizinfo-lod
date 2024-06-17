@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "gbizinfo-lod"
+version = "0.1.0"
+description = "A tool to generate LOD datasets for gBizINFO"
+authors = ["Babibubebon <babibubebon@babibubebo.org>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.2"
+click = "^8.1.7"
+rdflib = "^7.0.0"
+joblib = "^1.4.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+isort = "^5.13.2"
+
+[tool.poetry.scripts]
+gbilod = "gbizinfo_lod.command:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
