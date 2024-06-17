@@ -1,8 +1,14 @@
 # gBizINFO-LOD
 
+[![PyPI version](https://badge.fury.io/py/gbizinfo-lod.svg)](https://badge.fury.io/py/gbizinfo-lod)
+
 [gBizINFO](https://info.gbiz.go.jp/)が提供する[CSV形式のデータ](https://info.gbiz.go.jp/hojin/DownloadTop)からLinked Open Data(LOD)データセットを生成するためのツール
 
 ## 使い方
+
+```shell
+pip install gbizinfo-lod
+```
 
 変換元となる法人活動情報語彙対応版CSVファイル群のダウンロード
 (注: 法人基本情報は全件の一括ダウンロードが不可のため時間がかかる)
@@ -32,19 +38,19 @@ gbilod convert ./work_dir/ -o ./output_dir/
 
 - 法人番号を表す `ic:ID/ic:体系` の目的語は `<http://imi.go.jp/ns/code_id/id/corporateNumber>`
 
-```
+```turtle
 ex:Hojin <http://imi.go.jp/ns/core/rdf#ID> [
          <http://imi.go.jp/ns/core/rdf#体系> <http://imi.go.jp/ns/code_id/id/corporateNumber> ;
          <http://imi.go.jp/ns/core/rdf#識別値> "0123456789123" ;
          a <http://imi.go.jp/ns/core/rdf#ID型>
-    ] ;
+] .
 ```
 
 - 職場情報および財務情報における `hj:数量コレクション/hj:数量/hj:指標` の目的語はic:コード型の型付リテラル
   - 提供されていたRDFデータがこのようになっており、互換性確保のためこの仕様を踏襲する。 
   - 本来はリテラルではなく、 `http://hojin-info.go.jp/graph/commonCode` グラフ内で定義されているリソースへのURI参照を期待したものと思われる。
 
-```
+```turtle
 ex:HojinShokuba <http://hojin-info.go.jp/ns/domain/biz/1#数量コレクション> [
     <http://hojin-info.go.jp/ns/domain/biz/1#数量> [
         <http://hojin-info.go.jp/ns/domain/biz/1#指標> "http://hojin-info.go.jp/code/職場情報/企業規模"^^<http://imi.go.jp/ns/core/rdf#コード型> ;
@@ -52,7 +58,7 @@ ex:HojinShokuba <http://hojin-info.go.jp/ns/domain/biz/1#数量コレクショ�
         <http://imi.go.jp/ns/core/rdf#数値> 100.0 ;
         a <http://hojin-info.go.jp/ns/domain/biz/1#数量型>
     ]
-]
+] .
 ```
 
 ## Graph URI
