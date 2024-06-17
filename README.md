@@ -17,7 +17,7 @@ CSVファイル群をRDF(N-Triples形式)に変換
 gbilod convert ./work_dir/ -o ./output_dir/
 ```
 
-[Graph URI](#graph-rui)毎にファイルが出力される
+[Graph URI](#graph-uri)毎にファイルが出力される
 
 ## 変換仕様
 
