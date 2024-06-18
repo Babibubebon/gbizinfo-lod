@@ -17,13 +17,13 @@ pip install gbizinfo-lod
 gbilod download ./work_dir/
 ```
 
-CSVファイル群をRDF(N-Triples形式)に変換
+CSVファイル群をRDFに変換し、[Graph URI](#graph-uri)毎にファイルが出力される(デフォルトはN-Quads形式)
 
 ```shell
 gbilod convert ./work_dir/ -o ./output_dir/
 ```
 
-[Graph URI](#graph-uri)毎にファイルが出力される
+その他オプションは `gbilod convert --help` を参照
 
 ## 変換仕様
 
