@@ -9,6 +9,7 @@ import click
 from . import __version__
 from .client import GbizinfoClient
 from .mappers import *
+from .mappers import RDFFormatType
 
 
 @click.group()
@@ -64,7 +65,7 @@ def download(work_dir: str, sleep: int):
         click.echo("Retrieving Kihonjoho (IMI version)")
         with open(kihonjoho_imi_file, "w", encoding="utf-8") as f:
             writer = None
-            for row in get_kihonjoho_imi(kihonjoho_csv_file, client):
+            for row in get_kihonjoho_imi(kihonjoho_csv_file, client, sleep):
                 if writer is None:
                     writer = csv.DictWriter(f, fieldnames=row.keys())
                     writer.writeheader()
@@ -123,7 +124,15 @@ MAPPER_TYPES = [
 @click.option(
     "--output-dir", "-o", type=click.Path(exists=True, file_okay=False, writable=True)
 )
-def convert(work_dir: str, mappers: list[str], processes: int, output_dir: str):
+@click.option(
+    "--format",
+    "-f",
+    type=click.Choice([v.name for v in RDFFormatType]),
+    default=RDFFormatType.nq.name,
+)
+def convert(
+    work_dir: str, mappers: list[str], processes: int, output_dir: str, format: str
+):
     if not mappers:
         mappers = MAPPER_TYPES
     if not output_dir:
@@ -166,11 +175,11 @@ def convert(work_dir: str, mappers: list[str], processes: int, output_dir: str):
             case _:
                 raise NotImplementedError
 
-        output_file = os.path.join(output_dir, f"{m}.nt")
+        output_file = os.path.join(output_dir, f"{m}.{format}")
         click.echo(f"output: {output_file}")
         click.echo(f"Running {m} mapper ...")
         with open(output_file, "w") as f:
-            mapper.run(n_jobs=processes, output=f)
+            mapper.run(n_jobs=processes, output=f, format=RDFFormatType[format])
 
 
 @cli.command(help="Fetch CSV data from OutputCSV endpoint")

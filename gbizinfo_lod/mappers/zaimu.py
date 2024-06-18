@@ -1,3 +1,5 @@
+from rdflib import URIRef
+
 from ..namespace import *
 from . import Literal, _TripleMapType, bpo
 from ._katsudo import GbizInfoKatsudoMapper
@@ -5,6 +7,10 @@ from ._katsudo import GbizInfoKatsudoMapper
 
 class GbizInfoZaimuMapper(GbizInfoKatsudoMapper):
     """財務情報"""
+
+    @property
+    def graph(self) -> URIRef:
+        return URIRef("http://hojin-info.go.jp/graph/zaimu")
 
     @staticmethod
     def map_to_triples(row: dict[str, str]) -> list[_TripleMapType]:

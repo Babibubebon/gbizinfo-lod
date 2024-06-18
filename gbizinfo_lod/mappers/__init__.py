@@ -2,13 +2,15 @@ import csv
 import sys
 from abc import ABC, abstractmethod
 from typing import IO, Iterator, Tuple, Union
+from enum import Enum
 
 from joblib import Parallel, delayed
-from rdflib import BNode
+from rdflib import BNode, URIRef
 from rdflib import Literal as LiteralRdflib
 from rdflib.graph import _ObjectType, _PredicateType, _SubjectType, _TripleType
 from rdflib.namespace import RDF
 from rdflib.plugins.serializers.nt import _nt_row
+from rdflib.plugins.serializers.nquads import _nq_row
 
 _TripleMapType = Tuple[
     _SubjectType, _PredicateType, Union[str, _ObjectType, "BlankPredicateObjectMap"]
@@ -16,6 +18,7 @@ _TripleMapType = Tuple[
 _PredicateObjectType = Tuple[
     _PredicateType, Union[str, _ObjectType, "BlankPredicateObjectMap"]
 ]
+RDFFormatType = Enum("RDFFormatType", ["nt", "nq"])
 
 
 class Literal:
@@ -66,8 +69,8 @@ def flatten_triple_map(triple_map: _TripleMapType) -> list[_TripleType]:
     return triples
 
 
-def serialize_triple(triple: _TripleMapType) -> str:
-    return _nt_row(triple)
+def serialize_triple(triple: _TripleMapType, graph: URIRef | None = None) -> str:
+    return _nq_row(triple, graph) if graph else _nt_row(triple)
 
 
 class CSV2RDFMapper(ABC):
@@ -80,32 +83,38 @@ class CSV2RDFMapper(ABC):
             for row in reader:
                 yield row
 
-    def run(self, n_jobs: int = -1, output: IO[str] = sys.stdout):
-        if n_jobs == 1:
-            for row in self.iterator():
-                for triple_map in self.map_to_triples(self.preprocess(row)):
-                    for triple in flatten_triple_map(triple_map):
-                        output.write(serialize_triple(triple))
-        else:
-
-            def job(row: dict[str, str]) -> str:
-                return "".join(
-                    [
-                        serialize_triple(triple)
-                        for triple_map in self.map_to_triples(self.preprocess(row))
-                        for triple in flatten_triple_map(triple_map)
-                    ]
-                )
-
-            res = Parallel(n_jobs=n_jobs, return_as="generator_unordered", verbose=1)(
-                delayed(job)(row) for row in self.iterator()
+    def run(
+        self,
+        n_jobs: int = -1,
+        output: IO[str] = sys.stdout,
+        format: RDFFormatType = RDFFormatType.nq,
+    ):
+        def job(row: dict[str, str]) -> str:
+            return "".join(
+                [
+                    serialize_triple(
+                        triple,
+                        graph=self.graph if format == RDFFormatType.nq else None,
+                    )
+                    for triple_map in self.map_to_triples(self.preprocess(row))
+                    for triple in flatten_triple_map(triple_map)
+                ]
             )
-            for lines in res:
-                output.write(lines)
+
+        res = Parallel(n_jobs=n_jobs, return_as="generator_unordered", verbose=1)(
+            delayed(job)(row) for row in self.iterator()
+        )
+        for lines in res:
+            output.write(lines)
 
     @staticmethod
     def preprocess(row: dict[str, str]) -> dict[str, str | None]:
         return {key: val if val != "" else None for key, val in row.items()}
+
+    @property
+    @abstractmethod
+    def graph(self) -> URIRef:
+        raise NotImplementedError
 
     @staticmethod
     @abstractmethod
@@ -123,6 +132,7 @@ from .tokkyo import GbizInfoTokkyoMapper
 from .zaimu import GbizInfoZaimuMapper
 
 __all__ = [
+    "RDFFormatType",
     "GbizInfoHojinMapper",
     "GbizInfoHojyokinMapper",
     "GbizInfoChotatsuMapper",

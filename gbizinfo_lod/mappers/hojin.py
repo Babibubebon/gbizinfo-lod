@@ -7,6 +7,10 @@ from . import CSV2RDFMapper, Literal, _TripleMapType, bpo
 class GbizInfoHojinMapper(CSV2RDFMapper):
     """法人情報・法人基本情報"""
 
+    @property
+    def graph(self) -> URIRef:
+        return URIRef("http://hojin-info.go.jp/graph/hojin")
+
     @staticmethod
     def map_to_triples(row: dict[str, str]) -> list[_TripleMapType]:
         s = HJ_DATA[row["ID-識別値"]]
