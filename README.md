@@ -98,6 +98,6 @@ Gビズインフォを通じた効果的なオープンデータ利活用の促�
 
 ## License
 
-本リポジトリに含まれる [`commonCode.ttl`](commonCode.ttl) を除くリソースは、MIT Licenseで提供される。
+本リポジトリに含まれる [`commonCode.ttl`](commonCode.ttl) および [`commonCode.nq`](commonCode.nq) を除くリソースは、MIT Licenseで提供される。
 
-`commonCode.ttl` は、「[gBizINFO](https://info.gbiz.go.jp/)」（経済産業省）のSPARQL APIより取得・加工して作成したもので、[経済産業省 利用規約](https://www.meti.go.jp/main/rules.html)に従い利用するものである。
+`commonCode.ttl` および `commonCode.nq` は、「[gBizINFO](https://info.gbiz.go.jp/)」（経済産業省）のSPARQL APIより取得・加工して作成したもので、[経済産業省 利用規約](https://www.meti.go.jp/main/rules.html)に従い利用するものである。
