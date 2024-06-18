@@ -1,16 +1,17 @@
 import csv
 import sys
 from abc import ABC, abstractmethod
-from typing import IO, Iterator, Tuple, Union
 from enum import Enum
+from typing import IO, Iterator, Tuple, Union
 
 from joblib import Parallel, delayed
-from rdflib import BNode, URIRef
+from rdflib import BNode
 from rdflib import Literal as LiteralRdflib
+from rdflib import URIRef
 from rdflib.graph import _ObjectType, _PredicateType, _SubjectType, _TripleType
 from rdflib.namespace import RDF
-from rdflib.plugins.serializers.nt import _nt_row
 from rdflib.plugins.serializers.nquads import _nq_row
+from rdflib.plugins.serializers.nt import _nt_row
 
 _TripleMapType = Tuple[
     _SubjectType, _PredicateType, Union[str, _ObjectType, "BlankPredicateObjectMap"]

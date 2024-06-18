@@ -1,4 +1,5 @@
 import csv
+import gzip
 import os
 import shutil
 import time
@@ -127,11 +128,18 @@ MAPPER_TYPES = [
 @click.option(
     "--format",
     "-f",
+    "_format",
     type=click.Choice([v.name for v in RDFFormatType]),
     default=RDFFormatType.nq.name,
 )
+@click.option("--compress", "-c", is_flag=True)
 def convert(
-    work_dir: str, mappers: list[str], processes: int, output_dir: str, format: str
+    work_dir: str,
+    mappers: list[str],
+    processes: int,
+    output_dir: str,
+    _format: str,
+    compress: bool,
 ):
     if not mappers:
         mappers = MAPPER_TYPES
@@ -175,11 +183,15 @@ def convert(
             case _:
                 raise NotImplementedError
 
-        output_file = os.path.join(output_dir, f"{m}.{format}")
+        output_file = os.path.join(
+            output_dir, f"{m}.{_format}" + (".gz" if compress else "")
+        )
         click.echo(f"output: {output_file}")
         click.echo(f"Running {m} mapper ...")
-        with open(output_file, "w") as f:
-            mapper.run(n_jobs=processes, output=f, format=RDFFormatType[format])
+
+        f = gzip.open(output_file, "wt") if compress else open(output_file, "w")
+        mapper.run(n_jobs=processes, output=f, format=RDFFormatType[_format])
+        f.close()
 
 
 @cli.command(help="Fetch CSV data from OutputCSV endpoint")

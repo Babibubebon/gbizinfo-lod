@@ -1,4 +1,5 @@
 from rdflib import URIRef
+
 from ..namespace import *
 from . import _TripleMapType
 from ._katsudo import GbizInfoKatsudoMapper
