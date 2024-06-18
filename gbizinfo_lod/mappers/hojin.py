@@ -1,7 +1,7 @@
-from rdflib import Literal, URIRef
+from rdflib import URIRef
 
 from ..namespace import *
-from . import CSV2RDFMapper, _TripleMapType, bpo
+from . import CSV2RDFMapper, Literal, _TripleMapType, bpo
 
 
 class GbizInfoHojinMapper(CSV2RDFMapper):

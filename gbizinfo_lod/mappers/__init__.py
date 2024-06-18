@@ -117,8 +117,8 @@ from .chotatsu import GbizInfoChotatsuMapper
 from .hojin import GbizInfoHojinMapper
 from .hojyokin import GbizInfoHojyokinMapper
 from .hyosho import GbizInfoHyoshoMapper
-from .todokede import GbizInfoTodokedeMapper
 from .shokuba import GbizInfoShokubaMapper
+from .todokede import GbizInfoTodokedeMapper
 from .tokkyo import GbizInfoTokkyoMapper
 from .zaimu import GbizInfoZaimuMapper
 
