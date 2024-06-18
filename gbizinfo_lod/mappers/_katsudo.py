@@ -305,14 +305,27 @@ class GbizInfoKatsudoMapper(CSV2RDFMapper):
                 HJ.決算情報,
                 bpo(
                     [
-                        (RDF.type, IC.金額型),
-                        (IC.数値, Literal(row["決算情報-金額"], datatype=XSD.decimal)),
-                        (IC.通貨, row["決算情報-通貨"]),
+                        (RDF.type, HJ.決算情報型),
                         (
-                            IC.通貨コード,
-                            Literal(
-                                row["決算情報-通貨コード"],
-                                datatype=ISO4217.ISO3AlphaCurrencyCodeContentType,
+                            IC.金額,
+                            bpo(
+                                [
+                                    (RDF.type, IC.金額型),
+                                    (
+                                        IC.数値,
+                                        Literal(
+                                            row["決算情報-金額"], datatype=XSD.decimal
+                                        ),
+                                    ),
+                                    (IC.通貨, row["決算情報-通貨"]),
+                                    (
+                                        IC.通貨コード,
+                                        Literal(
+                                            row["決算情報-通貨コード"],
+                                            datatype=ISO4217.ISO3AlphaCurrencyCodeContentType,
+                                        ),
+                                    ),
+                                ]
                             ),
                         ),
                     ]
