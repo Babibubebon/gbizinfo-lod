@@ -4,6 +4,10 @@
 
 [gBizINFO](https://info.gbiz.go.jp/)が提供する[CSV形式のデータ](https://info.gbiz.go.jp/hojin/DownloadTop)からLinked Open Data(LOD)データセットを生成するためのツール
 
+生成したデータセットにアクセスできる公開SPARQLエンドポイントも以下で提供しています。
+
+<https://metadata.moe/project/gbizinfo/>
+
 ## 使い方
 
 ```shell
@@ -29,7 +33,7 @@ gbilod convert ./work_dir/ -o ./output_dir/
 
 基本的には以下の仕様書に基づく。
 
-- gBizINFO SPARQL API仕様書: https://web.archive.org/web/2/https://info.gbiz.go.jp/api/document/API.pdf
+- gBizINFO SPARQL API仕様書: https://warp.ndl.go.jp/info:ndljp/pid/13539552/info.gbiz.go.jp/api/document/API.pdf
 - リソース定義書 (CSV, XMLスキーマ仕様書): https://info.gbiz.go.jp/common/data/resourceinfo.pdf
 
 ### 仕様書との差異
