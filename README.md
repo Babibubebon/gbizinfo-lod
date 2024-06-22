@@ -10,9 +10,13 @@
 
 ## 使い方
 
+### インストール
+
 ```shell
 pip install gbizinfo-lod
 ```
+
+### CSVファイルダウンロード
 
 変換元となる法人活動情報語彙対応版CSVファイル群のダウンロード
 (注: 法人基本情報は全件の一括ダウンロードが不可のため時間がかかる)
@@ -21,11 +25,15 @@ pip install gbizinfo-lod
 gbilod download ./work_dir/
 ```
 
-CSVファイル群をRDFに変換し、[Graph URI](#graph-uri)毎にファイルが出力される(デフォルトはN-Quads形式)
+### CSV-RDF変換
+
+ダウンロードしたCSVファイル群をRDFに変換
 
 ```shell
 gbilod convert ./work_dir/ -o ./output_dir/
 ```
+
+[Graph URI](#graph-uri)毎にファイルが出力される(デフォルトはN-Quads形式)
 
 その他オプションは `gbilod convert --help` を参照
 
