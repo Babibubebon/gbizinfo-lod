@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gbizinfo-lod"
-version = "0.2.0"
+version = "0.2.1"
 description = "A tool to generate LOD datasets for gBizINFO"
 authors = ["Babibubebon <babibubebon@babibubebo.org>"]
 homepage = "https://github.com/Babibubebon/gbizinfo-lod"
