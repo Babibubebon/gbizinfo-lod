@@ -1,11 +1,12 @@
 import csv
-import gzip
 import os
 import shutil
 import time
 from typing import Iterator
 
 import click
+from isal import igzip_threaded
+from joblib.parallel import cpu_count
 
 from . import __version__
 from .client import GbizinfoClient
@@ -121,7 +122,19 @@ MAPPER_TYPES = [
 @click.option(
     "--mapper", "-m", "mappers", multiple=True, type=click.Choice(MAPPER_TYPES)
 )
-@click.option("--processes", "-p", type=int, default=-1)
+@click.option(
+    "--processes",
+    "-p",
+    type=int,
+    default=max(1, cpu_count(only_physical_cores=True) - 1),
+    help="Number of worker processes",
+)
+@click.option(
+    "--io-threads",
+    type=int,
+    default=2,
+    help="This is only valid if the '--compress' option is specified.",
+)
 @click.option(
     "--output-dir", "-o", type=click.Path(exists=True, file_okay=False, writable=True)
 )
@@ -132,11 +145,12 @@ MAPPER_TYPES = [
     type=click.Choice([v.name for v in RDFFormatType]),
     default=RDFFormatType.nq.name,
 )
-@click.option("--compress", "-c", is_flag=True)
+@click.option("--compress", "-c", is_flag=True, help="Enable gzip compression")
 def convert(
     work_dir: str,
     mappers: list[str],
     processes: int,
+    io_threads: int,
     output_dir: str,
     _format: str,
     compress: bool,
@@ -189,7 +203,11 @@ def convert(
         click.echo(f"output: {output_file}")
         click.echo(f"Running {m} mapper ...")
 
-        f = gzip.open(output_file, "wt") if compress else open(output_file, "w")
+        f = (
+            igzip_threaded.open(output_file, "wt", threads=io_threads)
+            if compress
+            else open(output_file, "w")
+        )
         mapper.run(n_jobs=processes, output=f, format=RDFFormatType[_format])
         f.close()
 
