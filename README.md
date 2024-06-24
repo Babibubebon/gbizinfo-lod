@@ -4,7 +4,9 @@
 
 [gBizINFO](https://info.gbiz.go.jp/)が提供する[CSV形式のデータ](https://info.gbiz.go.jp/hojin/DownloadTop)からLinked Open Data(LOD)データセットを生成するためのツール
 
-生成したデータセットにアクセスできる公開SPARQLエンドポイントも以下で提供しています。
+生成したデータセットは [gbizinfo-lod-dataset](https://github.com/Babibubebon/gbizinfo-lod-dataset) で公開しています。
+
+また、公開SPARQLエンドポイントも以下で提供しています。
 
 <https://metadata.moe/project/gbizinfo/>
 
