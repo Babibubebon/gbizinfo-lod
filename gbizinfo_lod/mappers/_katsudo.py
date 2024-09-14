@@ -8,7 +8,7 @@ class GbizInfoKatsudoMapper(CSV2RDFMapper):
     @staticmethod
     def map_to_triples(row: dict[str, str]) -> list[_TripleMapType]:
         s = HJ_DATA[row["ID-識別値"]]
-        ss = HJ_EXT[f"{row['ID-識別値']}_{row['キー情報']}"]
+        ss = HJ_EXT[f"{row['ID-識別値']}_{row['キー情報'].strip("\ufeff\"")}"]
 
         triples = [
             (s, HJ.法人活動情報, ss),

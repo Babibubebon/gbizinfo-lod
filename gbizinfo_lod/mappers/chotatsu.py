@@ -14,7 +14,7 @@ class GbizInfoChotatsuMapper(GbizInfoKatsudoMapper):
 
     @staticmethod
     def map_to_triples(row: dict[str, str]) -> list[_TripleMapType]:
-        ss = HJ_EXT[f"{row['ID-識別値']}_{row['キー情報']}"]
+        ss = HJ_EXT[f"{row['ID-識別値']}_{row['キー情報'].strip("\ufeff\"")}"]
 
         triples = GbizInfoKatsudoMapper.map_to_triples(row)
         triples.extend(
